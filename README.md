@@ -6,6 +6,9 @@ INSTALL
     npm install --save-dev mocha-lambda-ui
 
 
+Important: You need to set your ~/.aws/credentials and `EXPORT AWS_REGION=us-east-1`
+
+
 FEATURES
 ========
 
