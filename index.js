@@ -6,9 +6,9 @@ var Mocha = require('mocha');
 var Suite = require('mocha/lib/suite');
 var Test = require('mocha/lib/test');
 var escapeRe = require('escape-string-regexp');
-var lambdaFunction = require('./lambda.js');
 // jaws framework .env file
 var dotenv  = require('dotenv').config({ path: './admin.env' });
+var lambdaFunction = require('./lambda.js');
 
 /**
  * BDD-style interface:
