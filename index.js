@@ -7,6 +7,8 @@ var Suite = require('mocha/lib/suite');
 var Test = require('mocha/lib/test');
 var escapeRe = require('escape-string-regexp');
 var lambdaFunction = require('./lambda.js');
+// jaws framework .env file
+var dotenv  = require('dotenv').config({ path: './admin.env' });
 
 /**
  * BDD-style interface:

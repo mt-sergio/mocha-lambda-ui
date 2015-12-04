@@ -8,6 +8,8 @@ INSTALL
 
 Important: You need to set your ~/.aws/credentials and `EXPORT AWS_REGION=us-east-1`
 
+(Environment variables are read from ./admin.env (= JAWS-Framework))
+
 
 FEATURES
 ========
