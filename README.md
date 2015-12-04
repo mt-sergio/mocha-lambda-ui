@@ -9,24 +9,38 @@ INSTALL
 FEATURES
 ========
 
-Creates new UI called `mocha-lambda-reporter` based on Spec. Example:
+Creates new UI called `mocha-lambda-ui` based on BDD. Example:
 
     mocha -t 30000 -R mocha-lambda-reporter -u mocha-lambda-ui -c tests/live/**/*.js;
 
-It should be used with mocha-lambda-ui to see the invokation time
+It should be used with mocha-lambda-reporter to see the invokation time
 
 
 EXAMPLE
 =======
 
-    λ(module-function)
-     Check response
-    ┌───┬────────┬────────┬────────┬────────┐
-    │ ✓ │ 128    │ 512    │ 1024   │ 1536   │
-    ├───┼────────┼────────┼────────┼────────┤
-    │ 1 │ 438.68 │ 500.06 │ 440.85 │ 387.18 │
-    ├───┼────────┼────────┼────────┼────────┤
-    │ 2 │ 811.35 │ 458.89 │ 426.82 │ 415.50 │
-    ├───┼────────┼────────┼────────┼────────┤
-    │ 3 │ 482.55 │ 440.43 │ 777.20 │ 402.40 │
-    └───┴────────┴────────┴────────┴────────┘
+/tests/live/module-function.js
+
+    describe('module-function', function () {
+
+      lambdaConfig(require('./config.json')['module-function']);
+
+      lt('Check response', function () {
+        var event = {}; // required
+        var context = {}; // optional
+        return this.test.lambda(event, context).then(function (actual) {
+          var expected = '';
+          expect(actual).be.equal(expected);
+        });
+      });
+    });
+
+/tests/live/config.json
+
+    {
+      "module-function": {
+        "functionName": "dev-ProjectName-l-lModuleFunction-XXXXXXXX",
+        "count": 5,
+        "memoryArray": [128, 512, 1024, 1536]
+      }
+    }
