@@ -117,7 +117,18 @@ module.exports = Mocha.interfaces['mocha-lambda'] = function(suite) {
           suite.addTest(test);
         }
       }
-      return suite;
+      return test;
+    };
+
+    /**
+     * Exclusive test-case.
+     */
+
+    context.lt.only = function(title, fn) {
+      var test = context.lt(title, fn);
+      var reString = '^' + escapeRe(test.fullTitle()) + '$';
+      mocha.grep(new RegExp(reString));
+      return test;
     };
 
     /**
