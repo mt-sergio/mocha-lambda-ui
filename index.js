@@ -86,9 +86,10 @@ module.exports = Mocha.interfaces['mocha-lambda'] = function(suite) {
       var suite = suites[0];
       suite.myConfig = {};
       suite.myConfig.functionName = lambdaConfig.functionName; /* required */
+      suite.myConfig.qualifier = lambdaConfig.qualifier || '$LATEST';
       suite.myConfig.count = lambdaConfig.count || 1;
       suite.myConfig.memoryArray = lambdaConfig.memoryArray || [128, 512, 1024];
-    }
+    };
 
     /**
      * [lambda]
@@ -113,7 +114,7 @@ module.exports = Mocha.interfaces['mocha-lambda'] = function(suite) {
           test.file = file;
           // @FIXME I don't know how to do it nicer. I cannot retrieve the current test from context.lambda
           // We should use lambda() instead this.test.lambda() instead
-          test.lambda = lambdaFunction(test, suite.myConfig.functionName);
+          test.lambda = lambdaFunction(test, suite.myConfig.functionName, suite.myConfig.qualifier);
           suite.addTest(test);
         }
       }

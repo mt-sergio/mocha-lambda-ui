@@ -16,13 +16,14 @@ function changeLambdaConfig(functionName, memory) {
 }
 
 
-function callLambda(functionName, event, context) {
+function callLambda(functionName, qualifier, event, context) {
   var params = {
     FunctionName: functionName,
     ClientContext: new Buffer(JSON.stringify(context)).toString('base64'),
     InvocationType: 'RequestResponse',
     LogType: 'Tail',
-    Payload: JSON.stringify(event)
+    Payload: JSON.stringify(event),
+    Qualifier: qualifier
   };
 
   return lambda.invokeMySuffix(params).then(function (data) {
@@ -34,10 +35,10 @@ function callLambda(functionName, event, context) {
 }
 
 
-function updateAndCall(functionName, memory, event, context) {
+function updateAndCall(functionName, qualifier, memory, event, context) {
 
  if (functionName == old_functionName && memory == old_memory) {
-   return callLambda(functionName, event, context);
+   return callLambda(functionName, qualifier, event, context);
  }
 
  old_functionName = functionName;
@@ -45,16 +46,16 @@ function updateAndCall(functionName, memory, event, context) {
 
  return changeLambdaConfig(functionName, memory)
    .then(function () {
-     return callLambda(functionName, event, context);
+     return callLambda(functionName, qualifier, event, context);
    });
 }
 
 
-module.exports = function (test, functionName) {
+module.exports = function (test, functionName, qualifier) {
   return function (event, context) {
     context = context || {};
 
-    return updateAndCall(functionName, test.lambdaMemory, event, context)
+    return updateAndCall(functionName, qualifier, test.lambdaMemory, event, context)
       .then(function (response) {
 
         // save it for our reporter
@@ -62,4 +63,4 @@ module.exports = function (test, functionName) {
         return Promise.resolve(response.payload);
       });
     }
-}
+};
